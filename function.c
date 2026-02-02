@@ -118,7 +118,7 @@ void simulate(char* content, Node* nodes[], int numStanzas) {
                 else if(!strcmp(nodes[j]->type, "XOR")) {
                     int c = 0;
                     for(int k = 0; k < nodes[j]->numInput; k++) {
-                        if(nodes[nodes[j]->input[k]]->val == 0) {
+                        if(nodes[nodes[j]->input[k]]->val == 1) {
                             c++;
                         }
                     }

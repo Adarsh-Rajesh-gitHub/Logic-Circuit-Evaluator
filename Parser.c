@@ -18,17 +18,21 @@ Node* createNode(char* type, int uniqueId, int numInput, int numOutput, char* in
     inst->val = -1;
     //sets comma seperated numbers to arrays
     for(int i = 0; i < numInput; i++) {
+        inst->input[i] = strtol(inp, &inp, 10);
         if(*inp == ',') inp++;
-        inst->input[i] = *inp++-'0';
     }
     for(int i = 0; i < numOutput; i++) {
+        inst->output[i] = strtol(out, &out, 10);
         if(*out == ',') out++;
-        inst->output[i] = *out++-'0';
     }
     
     return inst;
 }
 
+//used to sort nodes by id
+int compareNodes(const void* a, const void* b) {
+    return (*((Node**)a))->uniqueID-(*((Node**)b))->uniqueID;
+}
 //call on { so you can find number stanzas
 int numInstances(char* input, char c) {
     int ct = 0;
@@ -108,13 +112,14 @@ int main(int argc, char* args[]) {
         res = strstr(set,"UniqueID=");
         res+=9;
         ptr = res;
-        lenV = lenVar(ptr);
+        //lenV = lenVar(ptr);
 
-        char* ID = malloc(lenV+1);
-        strncpy(ID, res, lenV);
-        ID[lenV] = '\0';
+        //char* ID = malloc(lenV+1);
+        //strncpy(ID, res, lenV);
+        //ID[lenV] = '\0';
         //
-        int id = ID[0]-'0'; 
+        //int id = ID[0]-'0'; 
+        int id = strtol(ptr, &ptr, 10);
         // printf("%s\n", ID);
 
         //-------Input
@@ -148,7 +153,7 @@ int main(int argc, char* args[]) {
         Node* n = createNode(type, id, numInput, numOutput, inp, out);
         nodes[i] = n;
     }
-
+    qsort(nodes, numStanzas, sizeof(Node*), compareNodes);
     for(int i = 0; i < numStanzas; i++) {
         //printNode(nodes[i]);
         //printf("-- %d | %d --",i, numStanzas);
