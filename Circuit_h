@@ -1,0 +1,19 @@
+
+#ifndef Circuit_h
+#define Circuit_h
+
+typedef struct {
+    char* type;
+    int uniqueID;
+    int numInput;
+    int numOutput;
+    int* input;
+    int* output;
+    int val;
+} Node;
+
+Node* createNode(char* type, int uniqueId, int numInput, int numOutput, char* inp, char* out);
+void simulate(char* content, Node* nodes[], int numStanzas);
+int numInstances(char* input, char c);
+void printNode(Node* node);
+#endif
